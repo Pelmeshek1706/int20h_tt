@@ -6,6 +6,10 @@ from tqdm import tqdm
 import subprocess
 import json
 from zipfile import ZipFile
+import random
+import shutil
+
+random.seed(42)
 
 IMAGE_WIDTH = 1024
 IMAGE_HEIGHT = 1024
@@ -44,8 +48,7 @@ def download_rsna_dataset():
 
 
 def convert_dicom_to_jpeg(dicom_folder_path: str,
-                          jpeg_folder_path: str,
-                          annotation_folder_path: Optional[str] = None) -> None:
+                          jpeg_folder_path: str) -> None:
     """
     Convert DICOM images to JPEG. If annotation_folder_path is specified,
     only images that have annotations will be converted.
@@ -58,16 +61,51 @@ def convert_dicom_to_jpeg(dicom_folder_path: str,
     if not os.path.exists(jpeg_folder_path):
         os.makedirs(jpeg_folder_path)
 
-    annotated_images_ids = list(map(lambda x: x.split(".")[0],
-                                os.listdir(annotation_folder_path))) if annotation_folder_path else []
-
     for dcm_image in tqdm(os.listdir(dicom_folder_path)):
         image_id = dcm_image.split(".")[0]
-        if (image_id in annotated_images_ids) or not annotation_folder_path:
-            dcm_data = pydicom.read_file(f"{dicom_folder_path}/{dcm_image}")
-            im = dcm_data.pixel_array
-            im = Image.fromarray(im)
-            im.save(f"{jpeg_folder_path}/{image_id}", 'JPEG')
+
+        dcm_data = pydicom.read_file(f"{dicom_folder_path}/{dcm_image}")
+        im = dcm_data.pixel_array
+        im = Image.fromarray(im)
+        im.save(f"{jpeg_folder_path}/{image_id}.jpeg", 'JPEG')
+
+
+def train_val_test_split(images_folder_path: str,
+                         annotation_folder_path: str,
+                         val_frac: float):
+    os.makedirs("data/train/images/", exist_ok=True)
+    os.makedirs("data/train/labels/", exist_ok=True)
+    os.makedirs("data/val/images/", exist_ok=True)
+    os.makedirs("data/val/labels/", exist_ok=True)
+    os.makedirs("data/test/images/", exist_ok=True)
+
+    annotated_images_ids = list(map(lambda x: x.split(".")[0],
+                                    os.listdir(annotation_folder_path)))
+    random.shuffle(annotated_images_ids)  # shuffle annotated files
+
+    # split ids
+    val_size = int(val_frac * len(annotated_images_ids))
+    val_ids = annotated_images_ids[:val_size]
+    test_ids = annotated_images_ids[val_size:(2*val_size)]
+    train_ids = annotated_images_ids[2*val_size:]
+
+    # move files to the corresponding folders
+    for image in tqdm(os.listdir(images_folder_path)):
+        image_id = image.split(".")[0]
+        if image_id in val_ids:
+            shutil.move(f"{images_folder_path}/{image}", "data/val/images/")
+            shutil.move(f"{annotation_folder_path}/{image_id}.txt", "data/val/labels/")
+        elif image_id in test_ids:
+            shutil.move(f"{images_folder_path}/{image}", "data/test/images/")
+        elif image_id in train_ids:
+            shutil.move(f"{images_folder_path}/{image}", "data/train/images/")
+            shutil.move(f"{annotation_folder_path}/{image_id}.txt", "data/train/labels/")
+    # some unannotated files will be moved to the test folder
+    for image in tqdm(os.listdir(images_folder_path)):
+        if len(os.listdir("data/test/images/")) <= 2*val_size:
+            shutil.move(f"{images_folder_path}/{image}", "data/test/images/")
+        else:
+            break
 
 
 def __convert_to_yolo_format(x: Union[int, float],

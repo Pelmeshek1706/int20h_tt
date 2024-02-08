@@ -2,3 +2,4 @@ data/
 .venv/
 .idea/
 .kaggle/
+__pycache__/
