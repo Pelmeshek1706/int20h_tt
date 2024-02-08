@@ -37,14 +37,10 @@ def download_rsna_dataset():
 
     print("Extracting RSNA dataset...")
     with ZipFile("rsna-pneumonia-detection-challenge.zip", 'r') as archive:
-        for filename in tqdm(archive.namelist()):
-            if filename.startswith("stage_2_train_images/") or filename.startswith("stage_2_test_images/"):
-                archive.extract(filename, "data/images/")
-            elif filename.startswith("stage_2_train_labels"):
-                archive.extract(filename, "data/labels/train/")
+        archive.extractall("data/RSNA_data/")
     os.remove("rsna-pneumonia-detection-challenge.zip")
-    os.rename("data/images/stage_2_train_images", "data/images/train")
-    os.rename("data/images/stage_2_test_images", "data/images/test")
+    os.rename("data/RSNA_data/stage_2_train_images/", "data/RSNA_data/train_dicom/")
+    os.rename("data/RSNA_data/stage_2_test_images/", "data/RSNA_data/test_dicom/")
 
 
 def convert_dicom_to_jpeg(dicom_folder_path: str,
@@ -102,7 +98,7 @@ def __convert_to_yolo_format(x: Union[int, float],
 
 
 def create_annotation_folder_from_csv(csv_annotation_path: str,
-                                      annotation_folder_path: str = "data/labels/train_yolo_format") -> None:
+                                      annotation_folder_path: str) -> None:
     """
     Create annotations in YOLOv8 format from CSV
 
