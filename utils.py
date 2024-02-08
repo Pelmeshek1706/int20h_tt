@@ -3,14 +3,48 @@ import pydicom
 from PIL import Image
 import os
 from tqdm import tqdm
-
+import subprocess
+import json
+from zipfile import ZipFile
 
 IMAGE_WIDTH = 1024
 IMAGE_HEIGHT = 1024
+RSNA_DATASET_URL = "https://www.kaggle.com/c/rsna-pneumonia-detection-challenge/"
 
 
 def download_rsna_dataset():
-    pass
+    """
+    Download and unpack RSNA dataset from Kaggle
+
+    :return: None
+    """
+    # ask user for kaggle credentials
+    print("Please provide your Kaggle credentials. You must participate in the competition to download the dataset.")
+    kaggle_username = input("Enter Kaggle username: ")
+    kaggle_api_key = input("Enter Kaggle API key: ")
+
+    os.makedirs(".kaggle/", exist_ok=True)
+    os.environ["KAGGLE_CONFIG_DIR"] = ".kaggle/"
+
+    # write credentials into json file
+    with open(".kaggle/kaggle.json", 'w') as kaggle_json:
+        kaggle_creds = {"username": kaggle_username,
+                        "key": kaggle_api_key}
+        kaggle_json.write(json.dumps(kaggle_creds))
+
+    print("Downloading RSNA dataset...")
+    subprocess.run(["kaggle", "competitions", "download", "-c", "rsna-pneumonia-detection-challenge"])
+
+    print("Extracting RSNA dataset...")
+    with ZipFile("rsna-pneumonia-detection-challenge.zip", 'r') as archive:
+        for filename in tqdm(archive.namelist()):
+            if filename.startswith("stage_2_train_images/") or filename.startswith("stage_2_test_images/"):
+                archive.extract(filename, "data/images/")
+            elif filename.startswith("stage_2_train_labels"):
+                archive.extract(filename, "data/labels/train/")
+    os.remove("rsna-pneumonia-detection-challenge.zip")
+    os.rename("data/images/stage_2_train_images", "data/images/train")
+    os.rename("data/images/stage_2_test_images", "data/images/test")
 
 
 def convert_dicom_to_jpeg(dicom_folder_path: str,
@@ -40,12 +74,12 @@ def convert_dicom_to_jpeg(dicom_folder_path: str,
             im.save(f"{jpeg_folder_path}/{image_id}", 'JPEG')
 
 
-def convert_to_yolo_format(x: Union[int, float],
-                           y: Union[int, float],
-                           width: Union[int, float],
-                           height: Union[int, float],
-                           img_width: Union[int, float],
-                           img_height: Union[int, float]) -> Tuple[float, float, float, float]:
+def __convert_to_yolo_format(x: Union[int, float],
+                             y: Union[int, float],
+                             width: Union[int, float],
+                             height: Union[int, float],
+                             img_width: Union[int, float],
+                             img_height: Union[int, float]) -> Tuple[float, float, float, float]:
     """
     Convert annotations to YOLOv8 format
 
@@ -95,12 +129,12 @@ def create_annotation_folder_from_csv(csv_annotation_path: str,
                 continue
 
             # convert coordinates to yolo format
-            norm_x, norm_y, norm_width, norm_height = convert_to_yolo_format(x=float(x),
-                                                                             y=float(y),
-                                                                             width=float(width),
-                                                                             height=float(height),
-                                                                             img_width=IMAGE_WIDTH,
-                                                                             img_height=IMAGE_HEIGHT)
+            norm_x, norm_y, norm_width, norm_height = __convert_to_yolo_format(x=float(x),
+                                                                               y=float(y),
+                                                                               width=float(width),
+                                                                               height=float(height),
+                                                                               img_width=IMAGE_WIDTH,
+                                                                               img_height=IMAGE_HEIGHT)
 
             if os.path.isfile(f"{annotation_folder_path}/{patient_id}.txt"):
                 access_mode = "a"
