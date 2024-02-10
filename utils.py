@@ -41,10 +41,10 @@ def download_rsna_dataset():
 
     print("Extracting RSNA dataset...")
     with ZipFile("rsna-pneumonia-detection-challenge.zip", 'r') as archive:
-        archive.extractall("../datasets/RSNA_data/")
+        archive.extractall("./datasets/RSNA_data/")
     os.remove("rsna-pneumonia-detection-challenge.zip")
-    os.rename("../datasets/RSNA_data/stage_2_train_images/", "../datasets/RSNA_data/train_dicom/")
-    os.rename("../datasets/RSNA_data/stage_2_test_images/", "../datasets/RSNA_data/test_dicom/")
+    os.rename("./datasets/RSNA_data/stage_2_train_images/", "./datasets/RSNA_data/train_dicom/")
+    os.rename("./datasets/RSNA_data/stage_2_test_images/", "./datasets/RSNA_data/test_dicom/")
 
 
 def convert_dicom_to_jpeg(dicom_folder_path: str,
@@ -73,11 +73,11 @@ def convert_dicom_to_jpeg(dicom_folder_path: str,
 def train_val_test_split(images_folder_path: str,
                          annotation_folder_path: str,
                          val_frac: float):
-    os.makedirs("../datasets/train/images/", exist_ok=True)
-    os.makedirs("../datasets/train/labels/", exist_ok=True)
-    os.makedirs("../datasets/val/images/", exist_ok=True)
-    os.makedirs("../datasets/val/labels/", exist_ok=True)
-    os.makedirs("../datasets/test/images/", exist_ok=True)
+    os.makedirs("./datasets/train/images/", exist_ok=True)
+    os.makedirs("./datasets/train/labels/", exist_ok=True)
+    os.makedirs("./datasets/val/images/", exist_ok=True)
+    os.makedirs("./datasets/val/labels/", exist_ok=True)
+    os.makedirs("./datasets/test/images/", exist_ok=True)
 
     annotated_images_ids = list(map(lambda x: x.split(".")[0],
                                     os.listdir(annotation_folder_path)))
@@ -93,17 +93,17 @@ def train_val_test_split(images_folder_path: str,
     for image in tqdm(os.listdir(images_folder_path)):
         image_id = image.split(".")[0]
         if image_id in val_ids:
-            shutil.move(f"{images_folder_path}/{image}", "../datasets/val/images/")
-            shutil.move(f"{annotation_folder_path}/{image_id}.txt", "../datasets/val/labels/")
+            shutil.move(f"{images_folder_path}/{image}", "./datasets/val/images/")
+            shutil.move(f"{annotation_folder_path}/{image_id}.txt", "./datasets/val/labels/")
         elif image_id in test_ids:
-            shutil.move(f"{images_folder_path}/{image}", "../datasets/test/images/")
+            shutil.move(f"{images_folder_path}/{image}", "./datasets/test/images/")
         elif image_id in train_ids:
-            shutil.move(f"{images_folder_path}/{image}", "../datasets/train/images/")
-            shutil.move(f"{annotation_folder_path}/{image_id}.txt", "../datasets/train/labels/")
+            shutil.move(f"{images_folder_path}/{image}", "./datasets/train/images/")
+            shutil.move(f"{annotation_folder_path}/{image_id}.txt", "./datasets/train/labels/")
     # some unannotated files will be moved to the test folder
     for image in tqdm(os.listdir(images_folder_path)):
-        if len(os.listdir("../datasets/test/images/")) <= 2*val_size:
-            shutil.move(f"{images_folder_path}/{image}", "../datasets/test/images/")
+        if len(os.listdir("./datasets/test/images/")) <= 2*val_size:
+            shutil.move(f"{images_folder_path}/{image}", "./datasets/test/images/")
         else:
             break
 

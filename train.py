@@ -3,11 +3,11 @@ from argparse import ArgumentParser
 from utils import download_rsna_dataset, create_annotation_folder_from_csv, convert_dicom_to_jpeg, train_val_test_split
 
 
-DEFAULT_CSV_ANNOTATIONS_PATH = "../datasets/RSNA_data/stage_2_train_labels.csv"
-DEFAULT_YOLO_ANNOTATIONS_PATH = "../datasets/RSNA_data/labels/"
-DEFAULT_TRAIN_IMAGES_PATH = "../datasets/RSNA_data/train_dicom/"
-DEFAULT_TEST_IMAGES_PATH = "../datasets/RSNA_data/test_dicom/"
-DEFAULT_JPEG_IMAGES_PATH = "../datasets/RSNA_data/images/"
+DEFAULT_CSV_ANNOTATIONS_PATH = "./datasets/RSNA_data/stage_2_train_labels.csv"
+DEFAULT_YOLO_ANNOTATIONS_PATH = "./datasets/RSNA_data/labels/"
+DEFAULT_TRAIN_IMAGES_PATH = "./datasets/RSNA_data/train_dicom/"
+DEFAULT_TEST_IMAGES_PATH = "./datasets/RSNA_data/test_dicom/"
+DEFAULT_JPEG_IMAGES_PATH = "./datasets/RSNA_data/images/"
 
 
 def main():
@@ -43,8 +43,8 @@ def main():
 
     # TODO: fit YOLOv8 with data.yaml file
     # define YOLOv8 model
-    model = YOLO("yolov8n.yaml")
-    results = model.train(data="data.yaml", epochs=20, pretrained=False, imgsz=640, verbose=True, single_cls=True)
+    model = YOLO("yolov8m.yaml")
+    results = model.train(data="data.yaml", epochs=40, pretrained=False, imgsz=640, verbose=True, single_cls=True)
 
 if __name__ == '__main__':
     main()

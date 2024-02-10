@@ -1,6 +1,6 @@
-root: ../datasets/RSNA_data/
+root: ./datasets/RSNA_data/
 train: train/images
-val: train/images
+val: valid/images
 test: # test set
 
 names:
