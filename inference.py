@@ -36,7 +36,7 @@ def main():
 
     with open(args.output_file, "a", encoding="utf-8") as submission_file:
         # add header
-        submission_file.write("patientId,PredictionString")
+        submission_file.write("patientId,PredictionString\n")
         for result in results:
             head, tail = os.path.split(result.path)
             patient_id = tail.split(".")[0]
