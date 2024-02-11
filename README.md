@@ -110,7 +110,7 @@ After inference script is done, images with detected pneumonia will be stored in
 ### Team lead
 [Github](https://github.com/Pelmeshek1706)
 [Telegram](https://t.me/pelmeshek1706)
-
+[LinkedIn](https://www.linkedin.com/in/nikita-basenko/)
 ### The guy who hates Tensorflow
 [Github](https://github.com/poopaandloopa)
 [Telegram](https://t.me/poopaandloopa)
