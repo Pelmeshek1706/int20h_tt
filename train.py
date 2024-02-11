@@ -46,7 +46,6 @@ def main():
                              annotation_folder_path=DEFAULT_YOLO_ANNOTATIONS_PATH,
                              val_frac=0.1)
 
-    # TODO: fit YOLOv8 with data.yaml file
     # define YOLOv8 model
     model = YOLO("yolov8m.yaml")
     results = model.train(data="data.yaml", epochs=40, pretrained=False, imgsz=640, verbose=True, single_cls=True)

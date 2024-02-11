@@ -22,19 +22,10 @@ def download_rsna_dataset():
 
     :return: None
     """
-    # ask user for kaggle credentials
-    print("Please provide your Kaggle credentials. You must participate in the competition to download the dataset.")
-    kaggle_username = input("Enter Kaggle username: ")
-    kaggle_api_key = input("Enter Kaggle API key: ")
-
-    os.makedirs(".kaggle/", exist_ok=True)
+    # .kaggle/ directory must contain kaggle.json file
     os.environ["KAGGLE_CONFIG_DIR"] = ".kaggle/"
-
-    # write credentials into json file
-    with open(".kaggle/kaggle.json", 'w') as kaggle_json:
-        kaggle_creds = {"username": kaggle_username,
-                        "key": kaggle_api_key}
-        kaggle_json.write(json.dumps(kaggle_creds))
+    if not os.path.isfile(".kaggle/kaggle.json"):
+        print("Please put your Kaggle credentials into .kaggle/ folder first")
 
     print("Downloading RSNA dataset...")
     subprocess.run(["kaggle", "competitions", "download", "-c", "rsna-pneumonia-detection-challenge"])

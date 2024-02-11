@@ -1,5 +1,6 @@
-data/
+datasets/
 .venv/
 .idea/
-.kaggle/
 __pycache__/
+runs/
+kaggle.json
