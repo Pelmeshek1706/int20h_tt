@@ -64,16 +64,16 @@ Run train script:
 python train.py [OPTIONS]
 ```
 You may provide the following options to run the script:
->| Key                | Type               | Default                                         | Description                                                                                                                                                                      |
->|--------------------|--------------------|-------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
->| `download_dataset` | Optional, flag     | `False`                                         | Whether to download RSNA dataset from Kaggle. You If specified, you should provide Kaggle credentials as well. You should also participate in RSNA Pneumonia Detection Challenge |
->| `train_images`     | Optional, argument | `./datasets/RSNA_data/train_dicom/`             | Path to folder containing training images in DICOM format. Only needed when custom training data is used                                                                         |
->| `csv_annotations`  | Optional, argument | `./datasets/RSNA_data/stage_2_train_labels.csv` | Path to file containing annotations for training images. Only needed when custom training data is used                                                                           |
->| `warm_start`       | Optional, flag     | `False`                                         | If specified, model will be trained without data preparation. Use only if data is already extracted and processed                                                                |
->| `kaggle_creds`     | Optional, argument | `.kaggle/`                                      | Path to folder containing Kaggle credentials as kaggle.json file. Required if `download_dataset` is specified                                                                    |
->| `epochs`           | Optional, argument | `20`                                            | Number of epochs to train for                                                                                                                                                    |
->| `imgsz`            | Optional, argument | `640`                                           | Size of input images as integer                                                                                                                                                  |
->| `model_name`       | Optional, argument | `m`                                             | Single letter to indicate YOLOv8 model name and size (can be on of the `n`, `s`, `m`, `l`, `x`)                                                                                  |                                                                                  |
+>| Key                | Type               | Default                                         | Description                                                                                                                                                                                                          |
+>|--------------------|--------------------|-------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+>| `download_dataset` | Optional, flag     | `False`                                         | Whether to download RSNA dataset from Kaggle. If specified, you should provide your Kaggle credentials as well. You should also participate in RSNA Pneumonia Detection Challenge to be able to download the dataset |
+>| `train_images`     | Optional, argument | `./datasets/RSNA_data/train_dicom/`             | Path to folder containing training images in DICOM format. Only needed when custom training data is used                                                                                                             |
+>| `csv_annotations`  | Optional, argument | `./datasets/RSNA_data/stage_2_train_labels.csv` | Path to file containing annotations for training images. Only needed when custom training data is used                                                                                                               |
+>| `warm_start`       | Optional, flag     | `False`                                         | If specified, model will be trained without data preparation. Use only if data is already extracted and processed                                                                                                    |
+>| `kaggle_creds`     | Optional, argument | `.kaggle/`                                      | Path to folder containing Kaggle credentials as kaggle.json file. Required if `download_dataset` is specified                                                                                                        |
+>| `epochs`           | Optional, argument | `20`                                            | Number of epochs to train for                                                                                                                                                                                        |
+>| `imgsz`            | Optional, argument | `640`                                           | Size of input images as integer                                                                                                                                                                                      |
+>| `model_name`       | Optional, argument | `m`                                             | Single letter to indicate YOLOv8 model name and size (can be on of the `n`, `s`, `m`, `l`, `x`)                                                                                                                      |                                                                                  |
 
 Examples:
 ```bash
@@ -118,4 +118,4 @@ After inference script is done, images with detected pneumonia will be stored in
 
 ### The guy who hates PyTorch
 [Github](https://github.com/poluidol2)
-[Telegra](https://t.me/poluidol)
+[Telegram](https://t.me/poluidol)
