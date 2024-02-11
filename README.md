@@ -36,17 +36,15 @@ values except for the number of epochs (which was set to 40) and model size (whi
 your own training parameters, for more information see [Usage Guide](#training)
 
 ### Evaluations
-![image](https://github.com/Pelmeshek1706/int20h_tt/assets/94761102/903c7549-8a82-4677-b290-17797dc0b06d)
-![image](https://github.com/Pelmeshek1706/int20h_tt/assets/94761102/ced683e0-3aff-43be-8972-478daeed8d2f)
+<img src="https://github.com/Pelmeshek1706/int20h_tt/assets/94761102/903c7549-8a82-4677-b290-17797dc0b06d" alt="drawing" width="200"/>
+<img src="https://github.com/Pelmeshek1706/int20h_tt/assets/94761102/ced683e0-3aff-43be-8972-478daeed8d2f" alt="drawing" width="200"/>
 
 ### Observations
 **Valid Labels**
-![image](https://github.com/Pelmeshek1706/int20h_tt/assets/94761102/6fc5bc28-5d57-4d21-a830-82cef934f027)
+<img src="https://github.com/Pelmeshek1706/int20h_tt/assets/94761102/6fc5bc28-5d57-4d21-a830-82cef934f027" alt="drawing" width="200"/>
 
 **Valid Predictions**
-![image](https://github.com/Pelmeshek1706/int20h_tt/assets/94761102/66a0b531-6eb3-4508-8bea-cb727668e663)
-
-----------
+<img src="https://github.com/Pelmeshek1706/int20h_tt/assets/94761102/66a0b531-6eb3-4508-8bea-cb727668e663" alt="drawing" width="200"/>
 
 ## Usage guide
 Python version: 3.11
