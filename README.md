@@ -42,5 +42,4 @@ As we know, for model training we need to use only labeled data from [dataset](h
 <img width="213" alt="image" src="https://github.com/Pelmeshek1706/int20h_tt/assets/94761102/0188487b-3635-42fa-b42d-beec8dd04a2c">
    
 2)<code>python inference.py --data_path ./datasets/RSNA_data/stage_2_test_images</code> 
-
 3) You can also add <code>--output_file</code> to specify the folder where the submission.csv file will be created (by default the file will be in the project folder)
