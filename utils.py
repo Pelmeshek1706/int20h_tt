@@ -1,10 +1,9 @@
-from typing import Optional, Union, Tuple
+from typing import Union, Tuple, List
 import pydicom
 from PIL import Image
 import os
 from tqdm import tqdm
 import subprocess
-import json
 from zipfile import ZipFile
 import random
 import shutil
@@ -46,7 +45,6 @@ def convert_dicom_to_jpeg(dicom_folder_path: str,
 
     :param dicom_folder_path: Path to the folder with DICOM images
     :param jpeg_folder_path: Path to save the converted images
-    :param annotation_folder_path: Path to .txt files with annotations in YOLOv8 format
     :return: None
     """
     if not os.path.exists(jpeg_folder_path):
@@ -126,6 +124,21 @@ def __convert_to_yolo_format(x: Union[int, float],
     return center_x, center_y, width, height
 
 
+def __convert_to_rsna_format(x, y, width, height):
+    """
+    Convert inference results from YOLOv8 format (without normalization) to original RSNA dataset format
+
+    :param x: The center x coordinate of the bounding box
+    :param y: The center y coordinate of the bounding box
+    :param width: The width of the predicted bounding box
+    :param height: The height of the predicted bounding box
+    :return: Bounding box coordinates in original RSNA dataset format
+    """
+    upper_left_x = x - width/2
+    upper_left_y = y - height/2
+    return upper_left_x, upper_left_y
+
+
 def create_annotation_folder_from_csv(csv_annotation_path: str,
                                       annotation_folder_path: str) -> None:
     """
@@ -168,3 +181,19 @@ def create_annotation_folder_from_csv(csv_annotation_path: str,
 
             with open(f"{annotation_folder_path}/{patient_id}.txt", access_mode) as annotation_file:
                 annotation_file.write(f"{target} {norm_x} {norm_y} {norm_width} {norm_height}\n")
+
+
+def process_inference_results(confidences: List, bboxes_xywh: List) -> str:
+    """
+    Return string representation of inference results
+    :param confidences: List of confidence scores for each bounding box
+    :param bboxes_xywh: List of bounding boxes coordinates for in YOLOv8 format (without normalization)
+    :return: Prediction string with processed inference results
+    """
+    output_results = []
+    for conf, xywh in zip(confidences, bboxes_xywh):
+        output_results.append(conf)
+        x, y, width, height = xywh
+        upper_left_x, upper_left_y = __convert_to_rsna_format(x, y, width, height)
+        output_results.extend([upper_left_x, upper_left_y, width, height])
+    return " ".join(list(map(str, output_results)))
