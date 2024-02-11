@@ -18,23 +18,42 @@ settings.update({'datasets_dir': DEFAULT_DATASET_DIR})
 def main():
     parser = ArgumentParser(description="Train YOLOv8")
     # data options
-    parser.add_argument('--download_dataset', action="store_true", default=False)
-    parser.add_argument('--train_images', type=str, default=DEFAULT_TRAIN_IMAGES_PATH)
-    parser.add_argument('--csv_annotations', type=str, default=DEFAULT_CSV_ANNOTATIONS_PATH)
-    parser.add_argument("--warm_start", action="store_true", default=False)
+    parser.add_argument('--download_dataset',
+                        action="store_true",
+                        default=False,
+                        help="Whether to download RSNA dataset. "
+                             "If specified, you should provide Kaggle credentials as well. "
+                             "You should also participate in RSNA Pneumonia Detection Challenge")
+    parser.add_argument('--train_images',
+                        type=str,
+                        default=DEFAULT_TRAIN_IMAGES_PATH,
+                        help="Path to folder containing training images in DICOM format")
+    parser.add_argument('--csv_annotations',
+                        type=str,
+                        default=DEFAULT_CSV_ANNOTATIONS_PATH,
+                        help="Path to file containing annotations for training images")
+    parser.add_argument("--warm_start",
+                        action="store_true",
+                        default=False,
+                        help="If specified, model will be trained without data preparation. "
+                             "Use only if data is already extracted and processed")
+    parser.add_argument("--kaggle_creds",
+                        type=str,
+                        default=".kaggle/",
+                        help="Path to folder containing Kaggle credentials as kaggle.json file.")
 
-    # new parameters    
+    # train options
     parser.add_argument('--epochs', type=int, default=20) 
     parser.add_argument('--imgsz', type=int, default=640)
     parser.add_argument('--model_name', type=str, default='n')
 
-    # train options
-    # parser.add_argument()
+
+
     args = parser.parse_args()
 
     # download RSNA dataset
     if args.download_dataset:
-        download_rsna_dataset()
+        download_rsna_dataset(kaggle_creds = args.kaggle_creds)
 
     if not args.warm_start:
         # convert annotations to YOLOv8 format

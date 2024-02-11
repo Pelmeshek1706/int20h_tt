@@ -15,16 +15,14 @@ IMAGE_HEIGHT = 1024
 RSNA_DATASET_URL = "https://www.kaggle.com/c/rsna-pneumonia-detection-challenge/"
 
 
-def download_rsna_dataset():
+def download_rsna_dataset(kaggle_creds: str) -> None:
     """
     Download and unpack RSNA dataset from Kaggle
 
+    :param kaggle_creds: Path to folder containing Kaggle credentials as kaggle.json file
     :return: None
     """
-    # .kaggle/ directory must contain kaggle.json file
-    os.environ["KAGGLE_CONFIG_DIR"] = ".kaggle/"
-    if not os.path.isfile(".kaggle/kaggle.json"):
-        print("Please put your Kaggle credentials into .kaggle/ folder first")
+    os.environ["KAGGLE_CONFIG_DIR"] = kaggle_creds
 
     print("Downloading RSNA dataset...")
     subprocess.run(["kaggle", "competitions", "download", "-c", "rsna-pneumonia-detection-challenge"])
@@ -61,7 +59,16 @@ def convert_dicom_to_jpeg(dicom_folder_path: str,
 
 def train_val_test_split(images_folder_path: str,
                          annotation_folder_path: str,
-                         val_frac: float):
+                         val_frac: float) -> None:
+    """
+    Split the original train dataset into train, validation and test sets.
+    Train and validation sets will contain only images with bboxes, test set will contain images with and without bboxes
+
+    :param images_folder_path: Path to the folder with train images (in JPEG format)
+    :param annotation_folder_path: Path to the folder with annotation files (in YOLOv8 format)
+    :param val_frac: Fraction of the annotated train images to include in the validation set
+    :return: None
+    """
     os.makedirs("./datasets/train/images/", exist_ok=True)
     os.makedirs("./datasets/train/labels/", exist_ok=True)
     os.makedirs("./datasets/val/images/", exist_ok=True)
@@ -124,7 +131,10 @@ def __convert_to_yolo_format(x: Union[int, float],
     return center_x, center_y, width, height
 
 
-def __convert_to_rsna_format(x, y, width, height):
+def __convert_to_rsna_format(x: float,
+                             y: float,
+                             width: float,
+                             height: float) -> Tuple[float, float]:
     """
     Convert inference results from YOLOv8 format (without normalization) to original RSNA dataset format
 
@@ -186,6 +196,7 @@ def create_annotation_folder_from_csv(csv_annotation_path: str,
 def process_inference_results(confidences: List, bboxes_xywh: List) -> str:
     """
     Return string representation of inference results
+
     :param confidences: List of confidence scores for each bounding box
     :param bboxes_xywh: List of bounding boxes coordinates for in YOLOv8 format (without normalization)
     :return: Prediction string with processed inference results
