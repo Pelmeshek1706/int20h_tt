@@ -43,9 +43,10 @@ def main():
                         help="Path to folder containing Kaggle credentials as kaggle.json file.")
 
     # train options
-    parser.add_argument('--epochs', type=int, default=20) 
-    parser.add_argument('--imgsz', type=int, default=640)
-    parser.add_argument('--model_name', type=str, default='n')
+    parser.add_argument('--epochs', type=int, default=20, help="Number of epochs to train for")
+    parser.add_argument('--imgsz', type=int, default=640, help="Size of input images as integer")
+    parser.add_argument('--model_name', type=str, default='n',
+                        help="Single letter to indicate YOLOv8 model name and size (can be on of the `n`, `s`, `m`, `l`, `x`")
 
     args = parser.parse_args()
 

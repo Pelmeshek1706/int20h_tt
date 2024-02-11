@@ -20,7 +20,7 @@ def main():
     parser.add_argument("--output_file",
                         type=str,
                         default="submission.csv",
-                        help="Path to file with inference resu")
+                        help="Path to file with inference results")
     args = parser.parse_args()
 
     # convert DICOM images to JPEG
