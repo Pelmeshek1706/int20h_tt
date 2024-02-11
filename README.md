@@ -8,18 +8,18 @@ As we know, for model training we need to use only labeled data from [dataset](h
 ![image](https://github.com/Pelmeshek1706/int20h_tt/assets/94761102/f2060400-089b-4d94-afbe-48465179807f)
 
 ### Data split:
-Train - 80%
-Validation - 10%
-Test - 10%
+- Train - 80%
+- Validation - 10%
+- Test - 10%
 
 ### Model config: #still can changing 
-Random_seed = 42
-Model size = n
-Epochs = 30 
+- Random_seed = 42
+- Model size = m
+- Epochs = 40
 
 ### Evaluations: 
-![image](https://github.com/Pelmeshek1706/int20h_tt/assets/94761102/20d4faeb-a360-4a7d-982e-4d19452a9434)
-![image](https://github.com/Pelmeshek1706/int20h_tt/assets/94761102/5cf87826-bb1d-464a-bf0f-c18bcc325655)
+![image](https://github.com/Pelmeshek1706/int20h_tt/assets/94761102/903c7549-8a82-4677-b290-17797dc0b06d)
+![image](https://github.com/Pelmeshek1706/int20h_tt/assets/94761102/ced683e0-3aff-43be-8972-478daeed8d2f)
 
 ### Observations:
 **Valid Labels**
