@@ -47,13 +47,11 @@ def main():
     parser.add_argument('--imgsz', type=int, default=640)
     parser.add_argument('--model_name', type=str, default='n')
 
-
-
     args = parser.parse_args()
 
     # download RSNA dataset
     if args.download_dataset:
-        download_rsna_dataset(kaggle_creds = args.kaggle_creds)
+        download_rsna_dataset(kaggle_creds=args.kaggle_creds)
 
     if not args.warm_start:
         # convert annotations to YOLOv8 format
@@ -82,5 +80,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-############
