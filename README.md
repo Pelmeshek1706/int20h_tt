@@ -36,7 +36,7 @@ values except for the number of epochs (which was set to 40) and model size (whi
 your own training parameters, for more information see [Usage Guide](#training)
 
 ### Evaluations
-<img src="https://github.com/Pelmeshek1706/int20h_tt/assets/94761102/903c7549-8a82-4677-b290-17797dc0b06d" alt="drawing" width="400"/>
+<img src="https://github.com/Pelmeshek1706/int20h_tt/assets/94761102/903c7549-8a82-4677-b290-17797dc0b06d" alt="drawing" width="400"/><br>
 <img src="https://github.com/Pelmeshek1706/int20h_tt/assets/94761102/ced683e0-3aff-43be-8972-478daeed8d2f" alt="drawing" width="400"/>
 
 ### Observations
