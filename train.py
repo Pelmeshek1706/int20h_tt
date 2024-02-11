@@ -23,6 +23,11 @@ def main():
     parser.add_argument('--csv_annotations', type=str, default=DEFAULT_CSV_ANNOTATIONS_PATH)
     parser.add_argument("--warm_start", action="store_true", default=False)
 
+    # new parameters    
+    parser.add_argument('--epochs', type=int, default=20) 
+    parser.add_argument('--imgsz', type=int, default=640)
+    parser.add_argument('--model_name', type=str, default='n')
+
     # train options
     # parser.add_argument()
     args = parser.parse_args()
@@ -47,9 +52,16 @@ def main():
                              val_frac=0.1)
 
     # define YOLOv8 model
-    model = YOLO("yolov8m.yaml")
-    results = model.train(data="data.yaml", epochs=40, pretrained=False, imgsz=640, verbose=True, single_cls=True)
-
+    model = YOLO(f"yolov8{args.model_name}.yaml")    
+    results = model.train(data="data.yaml", 
+                          epochs=args.epochs, 
+                          pretrained=False, 
+                          imgsz=args.imgsz, 
+                          verbose=True, 
+                          single_cls=True)    
+  
 
 if __name__ == '__main__':
     main()
+
+############
