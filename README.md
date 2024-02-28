@@ -105,17 +105,3 @@ python inference.py --data_path ./data/images --weights ./weights/yolo8l.pt --ou
 ```
 
 After inference script is done, images with detected pneumonia will be stored in `./runs/detect/predict/`
-
-## Team members
-### Team lead
-[Github](https://github.com/Pelmeshek1706)
-[Telegram](https://t.me/pelmeshek1706)
-[LinkedIn](https://www.linkedin.com/in/nikita-basenko/)
-### The guy who hates Tensorflow
-[Github](https://github.com/poopaandloopa)
-[Telegram](https://t.me/poopaandloopa)
-[LinkedIn](https://www.linkedin.com/in/andrii-krasnyh-a4828a205/)
-
-### The guy who hates PyTorch
-[Github](https://github.com/poluidol2)
-[Telegram](https://t.me/poluidol)
